@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "313264855777",
+    "project_id": "device-protection-app",
+    "storage_bucket": "device-protection-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313264855777:android:e2f6250cac0cad4bdfb5a0",
+        "android_client_info": {
+          "package_name": "com.example.device_security_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "313264855777-hvgditettei9aj3ssl9vpjefmece9lg0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlUC0-960SEP20WzIhb2HAt7WDQnGI1N0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "313264855777-hvgditettei9aj3ssl9vpjefmece9lg0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
