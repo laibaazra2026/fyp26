@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen>
     )..repeat(reverse: true);
 
     Future.delayed(const Duration(seconds: 3), () {
-      // Next screen will be added later
+      // Navigate to Onboarding Screen later
     });
   }
 
@@ -38,13 +39,7 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFF1A0B4F), Color(0xFF4A148C), Color(0xFF6A1B9A)],
-          ),
-        ),
+        decoration: const BoxDecoration(color: Color(0xFF8E24AA)),
         child: Stack(
           children: [
             Center(
@@ -57,20 +52,20 @@ class _SplashScreenState extends State<SplashScreen>
                       return Transform.scale(
                         scale: _controller.value,
                         child: Container(
-                          padding: const EdgeInsets.all(25),
+                          padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.white.withOpacity(0.3),
-                                blurRadius: 25,
-                                spreadRadius: 5,
+                                color: Colors.white24,
+                                blurRadius: 40,
+                                spreadRadius: 10,
                               ),
                             ],
                           ),
                           child: const Icon(
                             Icons.security,
-                            size: 100,
+                            size: 160,
                             color: Colors.white,
                           ),
                         ),
@@ -80,34 +75,49 @@ class _SplashScreenState extends State<SplashScreen>
 
                   const SizedBox(height: 25),
 
-                  const Text(
-                    "Device Protection",
-                    style: TextStyle(
+                  Text(
+                    "DEVICE PROTECTION",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
                       color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
+                      fontSize: 25,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.5,
                     ),
                   ),
 
                   const SizedBox(height: 10),
 
-                  const Text(
-                    "Secure Your Device",
-                    style: TextStyle(color: Colors.white70, fontSize: 18),
+                  Text(
+                    "Secure your device",
+                    style: GoogleFonts.poppins(
+                      color: Colors.white70,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1,
+                    ),
                   ),
+
+                  const SizedBox(height: 40),
+
+                  const CircularProgressIndicator(color: Colors.white),
                 ],
               ),
             ),
 
-            const Positioned(
-              bottom: 30,
+            Positioned(
+              bottom: 60,
               left: 0,
               right: 0,
               child: Center(
                 child: Text(
                   "Developed by L&A",
-                  style: TextStyle(color: Colors.white60, fontSize: 14),
+                  style: GoogleFonts.poppins(
+                    color: Colors.white70,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1,
+                  ),
                 ),
               ),
             ),
