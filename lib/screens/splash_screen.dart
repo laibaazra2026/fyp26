@@ -1,5 +1,5 @@
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -9,28 +9,48 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
+    with TickerProviderStateMixin {
+  late AnimationController _zoomController;
+  late AnimationController _pulseController;
+
+  late Animation<double> _zoomAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
+    _zoomController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
+
+    _pulseController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
-      lowerBound: 0.9,
-      upperBound: 1.1,
-    )..repeat(reverse: true);
+      lowerBound: 0.95,
+      upperBound: 1.05,
+    );
+
+    _zoomAnimation = CurvedAnimation(
+      parent: _zoomController,
+      curve: Curves.easeOutBack,
+    );
+
+    _zoomController.forward();
+
+    Future.delayed(const Duration(milliseconds: 1200), () {
+      _pulseController.repeat(reverse: true);
+    });
 
     Future.delayed(const Duration(seconds: 3), () {
-      // Navigate to Onboarding Screen later
+      // Navigate to Onboarding Screen here later
     });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _zoomController.dispose();
+    _pulseController.dispose();
     super.dispose();
   }
 
@@ -39,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: const BoxDecoration(color: Color(0xFF8E24AA)),
+        color: const Color(0xFF8E24AA),
         child: Stack(
           children: [
             Center(
@@ -47,19 +67,25 @@ class _SplashScreenState extends State<SplashScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AnimatedBuilder(
-                    animation: _controller,
+                    animation: Listenable.merge([
+                      _zoomController,
+                      _pulseController,
+                    ]),
                     builder: (context, child) {
+                      double scale = _zoomController.isCompleted
+                          ? _pulseController.value
+                          : _zoomAnimation.value;
+
                       return Transform.scale(
-                        scale: _controller.value,
+                        scale: scale,
                         child: Container(
-                          padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.white24,
-                                blurRadius: 40,
-                                spreadRadius: 10,
+                                blurRadius: 50,
+                                spreadRadius: 12,
                               ),
                             ],
                           ),
@@ -73,26 +99,26 @@ class _SplashScreenState extends State<SplashScreen>
                     },
                   ),
 
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 35),
 
                   Text(
                     "DEVICE PROTECTION",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                       color: Colors.white,
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 1.5,
                     ),
                   ),
 
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
 
                   Text(
                     "Secure your device",
                     style: GoogleFonts.poppins(
                       color: Colors.white70,
-                      fontSize: 12,
+                      fontSize: 15,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 1,
                     ),
@@ -100,7 +126,10 @@ class _SplashScreenState extends State<SplashScreen>
 
                   const SizedBox(height: 40),
 
-                  const CircularProgressIndicator(color: Colors.white),
+                  const CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 3,
+                  ),
                 ],
               ),
             ),
@@ -116,7 +145,7 @@ class _SplashScreenState extends State<SplashScreen>
                     color: Colors.white70,
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    letterSpacing: 1,
+                    letterSpacing: 1.5,
                   ),
                 ),
               ),
