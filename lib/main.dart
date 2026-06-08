@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'screens/splash_screen.dart';
+import 'screens/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,11 +16,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Device Protection',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        scaffoldBackgroundColor: Colors.white,
-      ),
-      home: const SplashScreen(),
+      theme: ThemeData(primarySwatch: Colors.deepPurple),
+      home: const LoginScreen(),
     );
   }
 }
