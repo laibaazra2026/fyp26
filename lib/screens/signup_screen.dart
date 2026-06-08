@@ -15,10 +15,10 @@ class _SignupScreenState extends State<SignupScreen> {
   final _passwordController = TextEditingController();
   final _phoneController = TextEditingController();
 
-  bool _obscurePassword = true;
   bool _isLoading = false;
+  bool _obscurePassword = true;
 
-  Future<void> _signup() async {
+  Future<void> _signUp() async {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Email and Password are required")),
@@ -34,19 +34,18 @@ class _SignupScreenState extends State<SignupScreen> {
         password: _passwordController.text.trim(),
       );
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Account Created Successfully!")),
-        );
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const LoginScreen()),
-        );
-      }
-    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Account Created Successfully!")),
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
+      );
+    } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text("Error: ${e.toString()}")));
+      ).showSnackBar(SnackBar(content: Text(e.message ?? "Signup Failed")));
     }
 
     setState(() => _isLoading = false);
@@ -57,7 +56,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Sign Up"),
+        title: const Text("Create Account"),
         backgroundColor: const Color(0xFF6A1B9A),
         foregroundColor: Colors.white,
       ),
@@ -67,14 +66,14 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 20),
               const Text(
                 "Create New Account",
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
+              const SizedBox(height: 8),
               const Text(
                 "Join us to protect your device",
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+                style: TextStyle(color: Colors.grey),
               ),
 
               const SizedBox(height: 40),
@@ -89,12 +88,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
 
               TextField(
                 controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: "Email",
                   prefixIcon: const Icon(Icons.email),
@@ -103,7 +100,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
 
               TextField(
@@ -117,7 +113,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
 
               TextField(
@@ -147,7 +142,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 width: double.infinity,
                 height: 55,
                 child: ElevatedButton(
-                  onPressed: _isLoading ? null : _signup,
+                  onPressed: _isLoading ? null : _signUp,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6A1B9A),
                     shape: RoundedRectangleBorder(

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'signup_screen.dart';
-import 'dashboard_screen.dart'; // Baad mein banayenge
+import 'dashboard_screen.dart';
+import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,27 +14,30 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _obscurePassword = true;
+  bool _obscure = true;
   bool _isLoading = false;
 
   Future<void> _login() async {
     setState(() => _isLoading = true);
+
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const DashboardScreen()),
+          MaterialPageRoute(builder: (context) => const DashboardScreen()),
         );
       }
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text("Error: ${e.toString()}")));
+      ).showSnackBar(SnackBar(content: Text(e.message ?? "Login Failed")));
     }
+
     setState(() => _isLoading = false);
   }
 
@@ -58,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
               const Text(
-                "Login to continue",
+                "Sign in to continue",
                 style: TextStyle(color: Colors.grey),
               ),
 
@@ -75,19 +79,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
               TextField(
                 controller: _passwordController,
-                obscureText: _obscurePassword,
+                obscureText: _obscure,
                 decoration: InputDecoration(
                   labelText: "Password",
                   border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+                      _obscure ? Icons.visibility : Icons.visibility_off,
                     ),
-                    onPressed: () =>
-                        setState(() => _obscurePassword = !_obscurePassword),
+                    onPressed: () => setState(() => _obscure = !_obscure),
                   ),
+                ),
+              ),
+
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ForgotPasswordScreen(),
+                    ),
+                  ),
+                  child: const Text("Forgot Password?"),
                 ),
               ),
 
@@ -110,12 +124,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
 
-              TextButton(
-                onPressed: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const DashboardScreen()),
-                ),
-                child: const Text("Don't have an account? Sign Up"),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Don't have an account?"),
+                  TextButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const SignupScreen()),
+                    ),
+                    child: const Text(
+                      "Sign Up",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
