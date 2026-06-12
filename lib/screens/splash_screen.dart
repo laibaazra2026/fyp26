@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -8,79 +10,60 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    );
-
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
-
-    _controller.forward();
-
-    Future.delayed(const Duration(seconds: 3), () {
-      // We will connect onboarding later
+    Timer(const Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+      );
     });
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    const Color primaryPurple = Color(0xFF8E24AA);
+
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF4A00E0), Color(0xFF8E2DE2)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Center(
-          child: FadeTransition(
-            opacity: _animation,
-            child: ScaleTransition(
-              scale: _animation,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.security, color: Colors.white, size: 120),
+      backgroundColor: primaryPurple,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.shield_outlined, size: 180, color: Colors.white),
 
-                  SizedBox(height: 25),
+            const SizedBox(height: 20),
 
-                  Text(
-                    "DEVICE PROTECTION",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2,
-                    ),
-                  ),
-
-                  SizedBox(height: 12),
-
-                  Text(
-                    "Protect • Track • Recover",
-                    style: TextStyle(color: Colors.white70, fontSize: 16),
-                  ),
-                ],
+            Text(
+              "DEVICE PROTECTION",
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5,
               ),
             ),
-          ),
+
+            const SizedBox(height: 10),
+
+            Text(
+              "Secure Your Device",
+              style: GoogleFonts.poppins(color: Colors.white70, fontSize: 16),
+            ),
+
+            const Spacer(),
+
+            Padding(
+              padding: const EdgeInsets.only(bottom: 30),
+              child: Text(
+                "Developed by L&A",
+                style: GoogleFonts.poppins(color: Colors.white60, fontSize: 14),
+              ),
+            ),
+          ],
         ),
       ),
     );
