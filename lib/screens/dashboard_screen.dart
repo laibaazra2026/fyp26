@@ -95,7 +95,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         );
                       },
-                      activeColor: Colors.green,
+                      activeThumbColor: Colors.green,
                     ),
                   ],
                 ),
