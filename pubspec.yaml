@@ -1,53 +1,27 @@
 name: device_security_system
-description: "A new Flutter project."
+description: Phone Theft & Loss Security App
 publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.11.1
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   
   # Firebase
-  firebase_core: ^3.12.1
-  firebase_auth: ^5.5.1
-  cloud_firestore: ^5.6.5
-  firebase_storage: ^12.4.4
-  firebase_messaging: ^15.2.3
-
-  # Location & GPS
-  geolocator: ^13.0.2
-  permission_handler: ^11.3.1
-
-  # Camera & Intruder
-  camera: ^0.11.1
-  image_picker: ^1.1.2
-
-  # SIM & Device Info
-  telephony: ^0.2.0
-  device_info_plus: ^11.3.3
-
-  # Background Services
-  workmanager: ^0.5.2
-  flutter_background_service: ^5.1.0
-
-  # Contacts Backup
-  flutter_contacts: ^1.1.8
-
-  # Utilities
-  path_provider: ^2.1.5
-  shared_preferences: ^2.5.2
-  intl: ^0.19.0
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.16.0
+  cloud_firestore: ^4.17.0
 
   # UI
-  cupertino_icons: ^1.0.8
+  cupertino_icons: ^1.0.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
+  flutter_lints: ^3.0.0
 
 flutter:
   uses-material-design: true
